@@ -23,8 +23,10 @@ const FeedbackForm = ({ onAddToList }: FeedbackFormProps) => {
     // Add validation to check if it includes hashtag
     if (text.includes("#") && text.length >= 5) {
       setShowValidaIndicator(true);
+      setTimeout(() => setShowValidaIndicator(false), 2000);
     } else {
       setShowInValidaIndicator(true);
+      setTimeout(() => setShowInValidaIndicator(false), 2000);
       return;
     }
     onAddToList(text);
