@@ -6,6 +6,9 @@ type FeedbackFormProps = {
 };
 const FeedbackForm = ({ onAddToList }: FeedbackFormProps) => {
   const [text, setText] = useState("");
+  const [showValidaIndicator, setShowValidaIndicator] = useState(false);
+  const [showInValidaIndicator, setShowInValidaIndicator] = useState(false);
+
   const charCount = MAX_CHAR_COUNT - text.length;
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = event.target.value;
@@ -17,12 +20,21 @@ const FeedbackForm = ({ onAddToList }: FeedbackFormProps) => {
 
   const handleSumbit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    //TODO: call submit form handler
+    // Add validation to check if it includes hashtag
+    if (text.includes("#") && text.length >= 5) {
+      setShowValidaIndicator(true);
+    } else {
+      setShowInValidaIndicator(true);
+      return;
+    }
     onAddToList(text);
     setText("");
   };
   return (
-    <form className="form" onSubmit={handleSumbit}>
+    <form
+      className={`form ${showValidaIndicator ? "form--valid" : ""} ${showInValidaIndicator ? "form--invalid" : ""} `}
+      onSubmit={handleSumbit}
+    >
       <textarea
         onChange={handleChange}
         value={text}
